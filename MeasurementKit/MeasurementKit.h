@@ -28,19 +28,20 @@ typedef void (^MKTOnLogLine)(MKTNetworkTest *, NSString *);
 @end
 
 //
-// Async
+// Runner
 //
 
 typedef void (^MKTOnTestComplete)(MKTNetworkTest *);
 typedef void (^MKTOnEmpty)(void);
 
-@class MKTAsyncState;
+@class MKTRunnerState;
 
-@interface MKTAsync : NSObject {
-  MKTAsyncState *state;
+@interface MKTRunner : NSObject {
+  MKTRunnerState *state;
 }
 @property(atomic, readwrite, copy) MKTOnTestComplete onTestComplete;
 @property(atomic, readwrite, copy) MKTOnEmpty onEmpty;
 - (id) init;
-- (void) run:(MKTNetworkTest *)test;
+- (void) runParallel:(MKTNetworkTest *)test;
+- (void) runSerial:(MKTNetworkTest *)test;
 @end

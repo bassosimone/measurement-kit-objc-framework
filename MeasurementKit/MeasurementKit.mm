@@ -75,32 +75,34 @@ using namespace ight::ooni::dns_injection;
 @end
 
 //
-// MKTAsync
+// MKTRunner
 //
 
-@interface MKTAsyncState : NSObject {
+@interface MKTRunnerState : NSObject {
   @public Async async;
   @public NSMutableDictionary *keepalive;
+  @public dispatch_queue_t queue;
 }
 @end
-@implementation MKTAsyncState
+@implementation MKTRunnerState
 - (id) init {
   self = [super init];
   if (self) {
     keepalive = [[NSMutableDictionary alloc] initWithCapacity:16];
+    queue = dispatch_queue_create("measurement-kit-serial-queue", 0);
   }
   return self;
 }
 @end
 
-@implementation MKTAsync
+@implementation MKTRunner
 @synthesize onTestComplete = _onTestComplete;
 @synthesize onEmpty = _onEmpty;
 
 - (id) init {
   self = [super init];
   if (self) {
-    state = [[MKTAsyncState alloc] init];
+    state = [[MKTRunnerState alloc] init];
     state->async.on_complete([self](SharedPointer<NetTest> tp) {
       NSNumber *number = [NSNumber numberWithLongLong:tp->identifier()];
       MKTNetworkTest *test = [state->keepalive objectForKey:number];
@@ -114,10 +116,27 @@ using namespace ight::ooni::dns_injection;
   return self;
 }
 
-- (void) run:(MKTNetworkTest *)test {
+- (void) runParallel:(MKTNetworkTest *)test {
   SharedPointer<NetTest> tp = [test makeShared];
   NSNumber *number = [NSNumber numberWithLongLong:tp->identifier()];
   [state->keepalive setObject:test forKey:number];
   state->async.run_test(tp);
+}
+
+- (void) runSerial:(MKTNetworkTest *)test {
+  dispatch_async(state->queue, ^{
+    SharedPointer<NetTest> tp = [test makeShared];
+    NSNumber *number = [NSNumber numberWithLongLong:tp->identifier()];
+    [state->keepalive setObject:test forKey:number];
+    tp->begin([&tp]() {
+      tp->end([]() {
+        ight_break_loop();
+      });
+    });
+    ight_loop();
+    [state->keepalive removeObjectForKey:number];
+    if (_onTestComplete) _onTestComplete(test);
+    if (_onEmpty) _onEmpty();
+  });
 }
 @end
