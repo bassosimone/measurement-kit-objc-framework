@@ -57,10 +57,11 @@ using namespace ight::ooni::dns_injection;
 }
 
 - (SharedPointer<NetTest>) makeShared {
+  NSString *nameserver = [[self settings] objectForKey:@"nameserver"];
+  if (!nameserver) throw std::runtime_error("Invalid input");
   SharedPointer<NetTest> tp{
-    // TODO: Use values set by user rather than hardcoded defaults
-    new DNSInjection("/tmp/hosts.txt", {
-      {"nameserver", "8.8.8.8"},
+    new DNSInjection([[self inputFile] UTF8String], {
+      {"nameserver", [nameserver UTF8String]},
     })
   };
   tp->set_log_verbose(1);
