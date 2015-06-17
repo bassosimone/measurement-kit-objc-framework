@@ -99,7 +99,7 @@ using namespace ight::ooni::dns_injection;
       NSNumber *number = [NSNumber numberWithLongLong:tp->identifier()];
       MKTNetworkTest *test = [state->keepalive objectForKey:number];
       [state->keepalive removeObjectForKey:number];
-      onTestComplete(test); // XXX What if the block is not set?
+      if (onTestComplete) onTestComplete(test);
     });
   }
   return self;
