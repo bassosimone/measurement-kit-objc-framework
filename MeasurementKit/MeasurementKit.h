@@ -7,24 +7,33 @@
 
 #import <Foundation/Foundation.h>
 
+//
+// Network tests
+//
+
 @interface MKTNetworkTest: NSObject
+@property(atomic, readwrite, retain) NSString *name;
+@property(atomic, readwrite, retain) NSMutableDictionary *settings;
+@property(atomic, readwrite, retain) NSString *inputFile;
+- (id) init;
 @end
 
 @interface MKTDNSInjection : MKTNetworkTest
-@property(copy) NSString *inputFile;
-@property(copy) NSString *nameServer;
 - (id) init;
-- (void) run;
 @end
 
-typedef void (^MKTOnTestCompleteBlock)(MKTNetworkTest *);
+//
+// Async
+//
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+typedef void (^MKTOnTestComplete)(MKTNetworkTest *);
 
-void MKTOnTestComplete(MKTOnTestCompleteBlock);
+@class MKTAsyncState;
 
-#ifdef __cplusplus
+@interface MKTAsync : NSObject {
+  MKTAsyncState *state;
 }
-#endif
+@property(atomic, readwrite, copy) MKTOnTestComplete onTestComplete;
+- (id) init;
+- (void) run:(MKTNetworkTest *)test;
+@end

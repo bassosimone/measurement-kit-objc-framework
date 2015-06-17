@@ -2,24 +2,28 @@
 
 static volatile int running = 0;
 
-static void init() {
+static void init(MKTAsync *async) {
   MKTDNSInjection *test = [[MKTDNSInjection alloc] init];
   [test setInputFile:@"/tmp/hosts.txt"];
-  [test setNameServer:@"8.8.8.8"];
-  [test run];
+  [test setSettings:[NSMutableDictionary dictionaryWithDictionary:@{
+    @"nameserver": @"8.8.8.8",
+  }]];
+  [async run:test];
   running += 1;
+  NSLog(@"Test started: %@", test);
 }
 
 int main() {
+  MKTAsync *async = [[MKTAsync alloc] init];
 
-  MKTOnTestComplete(^(MKTNetworkTest *test) {
-    NSLog(@"*** Test complete: %@", test);
+  [async setOnTestComplete:^(MKTNetworkTest *test) {
+    NSLog(@"Test complete: %@", test);
     running -= 1;
-  });
+  }];
 
-  init();
-  init();
-  init();
+  init(async);
+  init(async);
+  init(async);
 
   while (running > 0) sleep(1);
 }

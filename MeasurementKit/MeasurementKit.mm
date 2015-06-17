@@ -7,71 +7,108 @@
 
 #import "MeasurementKit.h"
 
-#import <ight/common/settings.hpp>
+#import <ight/common/async.hpp>
 #import <ight/common/poller.hpp>
+#import <ight/common/settings.hpp>
+
 #import <ight/ooni/dns_injection.hpp>
 
-using namespace ight::common;
-using namespace ight::ooni;
+using namespace ight::common::async;
+using namespace ight::common::pointer;
+using namespace ight::common::net_test;
 
-/*
- * Design: We use a global strict FIFO queue to run tests. We have the
- * disadvantage that tests cannot run concurrently. Yet, this makes code
- * simpler to understand, with less headaches related to the interplay
- * between C++ memory management and ARC.
- */
+using namespace ight::ooni::dns_injection;
 
-// XXX is it safe to initialize globals like this?
-// Otherwise I can use the usual singleton pattern of C++
-static dispatch_queue_t QUEUE = dispatch_queue_create("MeasurementKit", 0);
-static MKTOnTestCompleteBlock TEST_COMPLETE = ^(MKTNetworkTest *t) {};
-
-void MKTOnTestComplete(MKTOnTestCompleteBlock block) {
-  TEST_COMPLETE = block;
-}
+//
+// MKTNetworkTest
+//
 
 @implementation MKTNetworkTest
-@end
-
-@implementation MKTDNSInjection
-
 @synthesize inputFile;
-@synthesize nameServer;
+@synthesize name;
+@synthesize settings;
 
 - (id) init {
   self = [super init];
   if (self) {
+    name = @"";
+    settings = [[NSMutableDictionary alloc] initWithCapacity:16];
     inputFile = @"";
-    nameServer = @"";
   }
   return self;
 }
 
-- (void) run {
-  // TODO: disallow running this test more than once
-  dispatch_async(QUEUE, ^{
-    /*
-     * NOTE: The current object (`self`) is referenced by this block
-     * and will not be garbage collected because ight_loop() is blocking
-     * therefore we don't leave this block until the test is done.
-     */
-    settings::Settings settings{
-      {"nameserver", [nameServer UTF8String]}
-    };
-    dns_injection::DNSInjection test([inputFile UTF8String], settings);
-    test.set_log_verbose(1);
-    // TODO: Add function to receive the logging output
-    test.begin([&test, self]() {
-      test.end([&test, self]() {
-        ight_break_loop();
-      });
+- (SharedPointer<NetTest>) makeShared {
+  return SharedPointer<NetTest>{};
+}
+@end
+
+//
+// MKTDNSInjection
+//
+
+@implementation MKTDNSInjection
+- (id) init {
+  self = [super init];
+  if (self) {
+    [self setName:@"DNSInjection"];
+  }
+  return self;
+}
+
+- (SharedPointer<NetTest>) makeShared {
+  SharedPointer<NetTest> tp{
+    // TODO: Use values set by user rather than hardcoded defaults
+    new DNSInjection("/tmp/hosts.txt", {
+      {"nameserver", "8.8.8.8"},
+    })
+  };
+  tp->set_log_verbose(1);
+  // TODO: Allow to register and use function to see logs
+  return tp;
+}
+@end
+
+//
+// MKTAsync
+//
+
+@interface MKTAsyncState : NSObject {
+  @public Async async;
+  @public NSMutableDictionary *keepalive;
+}
+@end
+@implementation MKTAsyncState
+- (id) init {
+  self = [super init];
+  if (self) {
+    keepalive = [[NSMutableDictionary alloc] initWithCapacity:16];
+  }
+  return self;
+}
+@end
+
+@implementation MKTAsync
+@synthesize onTestComplete;
+
+- (id) init {
+  self = [super init];
+  if (self) {
+    state = [[MKTAsyncState alloc] init];
+    state->async.on_complete([self](SharedPointer<NetTest> tp) {
+      NSNumber *number = [NSNumber numberWithLongLong:tp->identifier()];
+      MKTNetworkTest *test = [state->keepalive objectForKey:number];
+      [state->keepalive removeObjectForKey:number];
+      onTestComplete(test); // XXX What if the block is not set?
     });
-    ight_loop();
-    /*
-     * Here to remind that we stay in the loop until the test is
-     * complete, which keeps `self` referenced.
-     */
-    TEST_COMPLETE(self);
-  });
+  }
+  return self;
+}
+
+- (void) run:(MKTNetworkTest *)test {
+  SharedPointer<NetTest> tp = [test makeShared];
+  NSNumber *number = [NSNumber numberWithLongLong:tp->identifier()];
+  [state->keepalive setObject:test forKey:number];
+  state->async.run_test(tp);
 }
 @end
