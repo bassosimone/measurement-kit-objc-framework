@@ -27,6 +27,7 @@ using namespace ight::ooni::dns_injection;
 @synthesize inputFile = _inputFile;
 @synthesize name = _name;
 @synthesize settings = _settings;
+@synthesize onLogLine = _onLogLine;
 
 - (id) init {
   self = [super init];
@@ -65,7 +66,10 @@ using namespace ight::ooni::dns_injection;
     })
   };
   tp->set_log_verbose(1);
-  // TODO: Allow to register and use function to see logs
+  tp->set_log_function([self](const char *s) {
+    MKTOnLogLine func = [self onLogLine];
+    if (func) func(self, [NSString stringWithUTF8String:s]);
+  });
   return tp;
 }
 @end

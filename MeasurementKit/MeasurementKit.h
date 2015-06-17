@@ -11,10 +11,15 @@
 // Network tests
 //
 
+@class MKTNetworkTest;
+
+typedef void (^MKTOnLogLine)(MKTNetworkTest *, NSString *);
+
 @interface MKTNetworkTest: NSObject
 @property(atomic, readwrite, retain) NSString *name;
 @property(atomic, readwrite, retain) NSMutableDictionary *settings;
 @property(atomic, readwrite, retain) NSString *inputFile;
+@property(atomic, readwrite, copy) MKTOnLogLine onLogLine;
 - (id) init;
 @end
 

@@ -8,15 +8,18 @@ static void init(MKTAsync *async) {
   [test setSettings:[NSMutableDictionary dictionaryWithDictionary:@{
     @"nameserver": @"8.8.8.8",
   }]];
+  [test setOnLogLine:^(MKTNetworkTest *test, NSString *logLine) {
+    NSLog(@"%@: %@", test, logLine);
+  }];
   [async run:test];
-  NSLog(@"Test started: %@", test);
+  NSLog(@"%@: started", test);
 }
 
 int main() {
   MKTAsync *async = [[MKTAsync alloc] init];
 
   [async setOnTestComplete:^(MKTNetworkTest *test) {
-    NSLog(@"Test complete: %@", test);
+    NSLog(@"%@: complete", test);
   }];
 
   [async setOnEmpty:^() {
