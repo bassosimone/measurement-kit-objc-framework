@@ -1,6 +1,6 @@
 #import "MeasurementKit/MeasurementKit.h"
 
-static volatile int running = 0;
+static volatile int again = 1;
 
 static void init(MKTAsync *async) {
   MKTDNSInjection *test = [[MKTDNSInjection alloc] init];
@@ -9,7 +9,6 @@ static void init(MKTAsync *async) {
     @"nameserver": @"8.8.8.8",
   }]];
   [async run:test];
-  running += 1;
   NSLog(@"Test started: %@", test);
 }
 
@@ -18,12 +17,16 @@ int main() {
 
   [async setOnTestComplete:^(MKTNetworkTest *test) {
     NSLog(@"Test complete: %@", test);
-    running -= 1;
+  }];
+
+  [async setOnEmpty:^() {
+    NSLog(@"No more pending tests");
+    again = 0;
   }];
 
   init(async);
   init(async);
   init(async);
 
-  while (running > 0) sleep(1);
+  while (again) sleep(1);
 }

@@ -102,6 +102,9 @@ using namespace ight::ooni::dns_injection;
       [state->keepalive removeObjectForKey:number];
       if (onTestComplete) onTestComplete(test);
     });
+    state->async.on_empty([self]() {
+      if (_onEmpty) _onEmpty();
+    });
   }
   return self;
 }

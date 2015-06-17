@@ -27,6 +27,7 @@
 //
 
 typedef void (^MKTOnTestComplete)(MKTNetworkTest *);
+typedef void (^MKTOnEmpty)(void);
 
 @class MKTAsyncState;
 
@@ -34,6 +35,7 @@ typedef void (^MKTOnTestComplete)(MKTNetworkTest *);
   MKTAsyncState *state;
 }
 @property(atomic, readwrite, copy) MKTOnTestComplete onTestComplete;
+@property(atomic, readwrite, copy) MKTOnEmpty onEmpty;
 - (id) init;
 - (void) run:(MKTNetworkTest *)test;
 @end
