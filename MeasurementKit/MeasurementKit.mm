@@ -24,16 +24,16 @@ using namespace ight::ooni::dns_injection;
 //
 
 @implementation MKTNetworkTest
-@synthesize inputFile;
-@synthesize name;
-@synthesize settings;
+@synthesize inputFile = _inputFile;
+@synthesize name = _name;
+@synthesize settings = _settings;
 
 - (id) init {
   self = [super init];
   if (self) {
-    name = @"";
-    settings = [[NSMutableDictionary alloc] initWithCapacity:16];
-    inputFile = @"";
+    _name = @"";
+    _settings = [[NSMutableDictionary alloc] initWithCapacity:16];
+    _inputFile = @"";
   }
   return self;
 }
@@ -90,7 +90,8 @@ using namespace ight::ooni::dns_injection;
 @end
 
 @implementation MKTAsync
-@synthesize onTestComplete;
+@synthesize onTestComplete = _onTestComplete;
+@synthesize onEmpty = _onEmpty;
 
 - (id) init {
   self = [super init];
@@ -100,7 +101,7 @@ using namespace ight::ooni::dns_injection;
       NSNumber *number = [NSNumber numberWithLongLong:tp->identifier()];
       MKTNetworkTest *test = [state->keepalive objectForKey:number];
       [state->keepalive removeObjectForKey:number];
-      if (onTestComplete) onTestComplete(test);
+      if (_onTestComplete) _onTestComplete(test);
     });
     state->async.on_empty([self]() {
       if (_onEmpty) _onEmpty();
