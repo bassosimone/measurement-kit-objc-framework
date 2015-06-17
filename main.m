@@ -1,7 +1,5 @@
 #import "MeasurementKit/MeasurementKit.h"
 
-static volatile int again = 1;
-
 static void init(MKTAsync *async) {
   MKTDNSInjection *test = [[MKTDNSInjection alloc] init];
   [test setInputFile:@"/tmp/hosts.txt"];
@@ -24,12 +22,13 @@ int main() {
 
   [async setOnEmpty:^() {
     NSLog(@"No more pending tests");
-    again = 0;
   }];
 
   init(async);
   init(async);
   init(async);
-
-  while (again) sleep(1);
+  while (1) {
+    init(async);
+    sleep(1);
+  }
 }
