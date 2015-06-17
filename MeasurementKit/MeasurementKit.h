@@ -15,16 +15,16 @@
 
 typedef void (^MKTOnLogLine)(MKTNetworkTest *, NSString *);
 
-@interface MKTNetworkTest: NSObject
+@interface MKTNetworkTest : NSObject
 @property(atomic, readwrite, retain) NSString *name;
 @property(atomic, readwrite, retain) NSMutableDictionary *settings;
 @property(atomic, readwrite, retain) NSString *inputFile;
 @property(atomic, readwrite, copy) MKTOnLogLine onLogLine;
-- (id) init;
+- (id)init;
 @end
 
 @interface MKTDNSInjection : MKTNetworkTest
-- (id) init;
+- (id)init;
 @end
 
 //
@@ -37,11 +37,11 @@ typedef void (^MKTOnEmpty)(void);
 @class MKTRunnerState;
 
 @interface MKTRunner : NSObject {
-  MKTRunnerState *state;
+    MKTRunnerState *state;
 }
 @property(atomic, readwrite, copy) MKTOnTestComplete onTestComplete;
 @property(atomic, readwrite, copy) MKTOnEmpty onEmpty;
-- (id) init;
-- (void) runParallel:(MKTNetworkTest *)test;
-- (void) runSerial:(MKTNetworkTest *)test;
+- (id)init;
+- (void)runParallel:(MKTNetworkTest *)test;
+- (void)runSerial:(MKTNetworkTest *)test;
 @end
