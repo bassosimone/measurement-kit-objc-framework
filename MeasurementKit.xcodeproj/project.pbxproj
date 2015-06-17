@@ -1,0 +1,284 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0603E7101B32063E000EBF32 /* MeasurementKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0603E70F1B32063E000EBF32 /* MeasurementKit.mm */; };
+		0639D7B91B32073400BD1B20 /* libevent_pthreads.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0639D7B51B32073400BD1B20 /* libevent_pthreads.a */; };
+		0639D7BA1B32073400BD1B20 /* libevent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0639D7B61B32073400BD1B20 /* libevent.a */; };
+		0639D7BB1B32073400BD1B20 /* libight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0639D7B71B32073400BD1B20 /* libight.a */; };
+		0639D7BC1B32073400BD1B20 /* libyaml-cpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0639D7B81B32073400BD1B20 /* libyaml-cpp.a */; };
+		0639D7BE1B3207C300BD1B20 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0639D7BD1B3207C300BD1B20 /* main.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		06D1155D1B32056A00120394 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0603E70E1B32063E000EBF32 /* MeasurementKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementKit.h; path = MeasurementKit/MeasurementKit.h; sourceTree = SOURCE_ROOT; };
+		0603E70F1B32063E000EBF32 /* MeasurementKit.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MeasurementKit.mm; path = MeasurementKit/MeasurementKit.mm; sourceTree = SOURCE_ROOT; };
+		0639D7B51B32073400BD1B20 /* libevent_pthreads.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libevent_pthreads.a; path = "../../src/measurement-kit/measurement-kit-app-ios/Libight_iOS/Libight_iOS/lib/libevent_pthreads.a"; sourceTree = "<group>"; };
+		0639D7B61B32073400BD1B20 /* libevent.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libevent.a; path = "../../src/measurement-kit/measurement-kit-app-ios/Libight_iOS/Libight_iOS/lib/libevent.a"; sourceTree = "<group>"; };
+		0639D7B71B32073400BD1B20 /* libight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libight.a; path = "../../src/measurement-kit/measurement-kit-app-ios/Libight_iOS/Libight_iOS/lib/libight.a"; sourceTree = "<group>"; };
+		0639D7B81B32073400BD1B20 /* libyaml-cpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libyaml-cpp.a"; path = "../../src/measurement-kit/measurement-kit-app-ios/Libight_iOS/Libight_iOS/lib/libyaml-cpp.a"; sourceTree = "<group>"; };
+		0639D7BD1B3207C300BD1B20 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = SOURCE_ROOT; };
+		06D1155F1B32056A00120394 /* MK */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MK; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		06D1155C1B32056A00120394 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0639D7B91B32073400BD1B20 /* libevent_pthreads.a in Frameworks */,
+				0639D7BA1B32073400BD1B20 /* libevent.a in Frameworks */,
+				0639D7BB1B32073400BD1B20 /* libight.a in Frameworks */,
+				0639D7BC1B32073400BD1B20 /* libyaml-cpp.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		06D115561B32056A00120394 = {
+			isa = PBXGroup;
+			children = (
+				0639D7B51B32073400BD1B20 /* libevent_pthreads.a */,
+				0639D7B61B32073400BD1B20 /* libevent.a */,
+				0639D7B71B32073400BD1B20 /* libight.a */,
+				0639D7B81B32073400BD1B20 /* libyaml-cpp.a */,
+				06D115611B32056A00120394 /* MeasurementKit */,
+				06D115601B32056A00120394 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		06D115601B32056A00120394 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				06D1155F1B32056A00120394 /* MK */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		06D115611B32056A00120394 /* MeasurementKit */ = {
+			isa = PBXGroup;
+			children = (
+				0639D7BD1B3207C300BD1B20 /* main.m */,
+				0603E70E1B32063E000EBF32 /* MeasurementKit.h */,
+				0603E70F1B32063E000EBF32 /* MeasurementKit.mm */,
+			);
+			name = MeasurementKit;
+			path = MK;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		06D1155E1B32056A00120394 /* MK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 06D115661B32056A00120394 /* Build configuration list for PBXNativeTarget "MK" */;
+			buildPhases = (
+				06D1155B1B32056A00120394 /* Sources */,
+				06D1155C1B32056A00120394 /* Frameworks */,
+				06D1155D1B32056A00120394 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MK;
+			productName = MK;
+			productReference = 06D1155F1B32056A00120394 /* MK */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		06D115571B32056A00120394 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = "Simone Basso";
+				TargetAttributes = {
+					06D1155E1B32056A00120394 = {
+						CreatedOnToolsVersion = 6.3.2;
+					};
+				};
+			};
+			buildConfigurationList = 06D1155A1B32056A00120394 /* Build configuration list for PBXProject "MeasurementKit" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 06D115561B32056A00120394;
+			productRefGroup = 06D115601B32056A00120394 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				06D1155E1B32056A00120394 /* MK */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		06D1155B1B32056A00120394 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0639D7BE1B3207C300BD1B20 /* main.m in Sources */,
+				0603E7101B32063E000EBF32 /* MeasurementKit.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		06D115641B32056A00120394 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		06D115651B32056A00120394 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		06D115671B32056A00120394 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"/Users/sbasso/src/measurement-kit/measurement-kit-app-ios/Libight_iOS/Libight_iOS/include/**",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/sbasso/src/measurement-kit/measurement-kit-app-ios/Libight_iOS/Libight_iOS/lib",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		06D115681B32056A00120394 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"/Users/sbasso/src/measurement-kit/measurement-kit-app-ios/Libight_iOS/Libight_iOS/include/**",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/sbasso/src/measurement-kit/measurement-kit-app-ios/Libight_iOS/Libight_iOS/lib",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		06D1155A1B32056A00120394 /* Build configuration list for PBXProject "MeasurementKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06D115641B32056A00120394 /* Debug */,
+				06D115651B32056A00120394 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		06D115661B32056A00120394 /* Build configuration list for PBXNativeTarget "MK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06D115671B32056A00120394 /* Debug */,
+				06D115681B32056A00120394 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 06D115571B32056A00120394 /* Project object */;
+}
