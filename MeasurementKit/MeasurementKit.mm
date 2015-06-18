@@ -93,7 +93,7 @@ using namespace ight::ooni::dns_injection;
     self = [super init];
     if (self) {
         keepalive = [[NSMutableDictionary alloc] initWithCapacity:16];
-        queue = dispatch_queue_create("measurement-kit-serial-queue", 0);
+        queue = dispatch_queue_create("io.github.measurement-kit.queue", 0);
     }
     return self;
 }
