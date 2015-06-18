@@ -42,6 +42,5 @@ typedef void (^MKTOnEmpty)(void);
 @property(atomic, readwrite, copy) MKTOnTestComplete onTestComplete;
 @property(atomic, readwrite, copy) MKTOnEmpty onEmpty;
 - (id)init;
-- (void)runParallel:(MKTNetworkTest *)test;
 - (void)runSerial:(MKTNetworkTest *)test;
 @end

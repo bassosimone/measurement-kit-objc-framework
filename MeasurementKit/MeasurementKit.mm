@@ -7,13 +7,11 @@
 
 #import "MeasurementKit.h"
 
-#import <ight/common/async.hpp>
 #import <ight/common/poller.hpp>
 #import <ight/common/settings.hpp>
 
 #import <ight/ooni/dns_injection.hpp>
 
-using namespace ight::common::async;
 using namespace ight::common::pointer;
 using namespace ight::common::net_test;
 
@@ -86,7 +84,6 @@ using namespace ight::ooni::dns_injection;
 //
 
 @interface MKTRunnerState : NSObject {
-  @public Async async;
   @public NSMutableDictionary *keepalive;
   @public dispatch_queue_t queue;
 }
@@ -110,24 +107,8 @@ using namespace ight::ooni::dns_injection;
     self = [super init];
     if (self) {
         state = [[MKTRunnerState alloc] init];
-        state->async.on_complete([self](SharedPointer<NetTest> tp) {
-            NSNumber *number = [NSNumber numberWithLongLong:tp->identifier()];
-            MKTNetworkTest *test = [state->keepalive objectForKey:number];
-            [state->keepalive removeObjectForKey:number];
-            if (_onTestComplete) _onTestComplete(test);
-        });
-        state->async.on_empty([self]() {
-            if (_onEmpty) _onEmpty();
-        });
     }
     return self;
-}
-
-- (void)runParallel:(MKTNetworkTest *)test {
-    SharedPointer<NetTest> tp = [test makeShared];
-    NSNumber *number = [NSNumber numberWithLongLong:tp->identifier()];
-    [state->keepalive setObject:test forKey:number];
-    state->async.run_test(tp);
 }
 
 - (void)runSerial:(MKTNetworkTest *)test {
