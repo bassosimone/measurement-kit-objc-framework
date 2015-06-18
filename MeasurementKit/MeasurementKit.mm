@@ -61,16 +61,13 @@ using namespace ight::ooni::dns_injection;
     NSString *nameserver = [[self settings] objectForKey:@"nameserver"];
     if (!nameserver)
         throw std::runtime_error("Invalid input");
-    SharedPointer<NetTest> tp{
-        new DNSInjection([[self inputFile] UTF8String],
-                         {
-                             {"nameserver", [nameserver UTF8String]},
-                         })};
+    SharedPointer<NetTest> tp{new DNSInjection([[self inputFile] UTF8String], {
+        {"nameserver", [nameserver UTF8String]},
+    })};
     tp->set_log_verbose(1);
     tp->set_log_function([self](const char *s) {
         MKTOnLogLine func = [self onLogLine];
-        if (func)
-            func(self, [NSString stringWithUTF8String:s]);
+        if (func) func(self, [NSString stringWithUTF8String:s]);
     });
     return tp;
 }
@@ -81,12 +78,9 @@ using namespace ight::ooni::dns_injection;
 //
 
 @interface MKTRunnerState : NSObject {
-  @public
-    Async async;
-  @public
-    NSMutableDictionary *keepalive;
-  @public
-    dispatch_queue_t queue;
+  @public Async async;
+  @public NSMutableDictionary *keepalive;
+  @public dispatch_queue_t queue;
 }
 @end
 @implementation MKTRunnerState
@@ -112,12 +106,10 @@ using namespace ight::ooni::dns_injection;
             NSNumber *number = [NSNumber numberWithLongLong:tp->identifier()];
             MKTNetworkTest *test = [state->keepalive objectForKey:number];
             [state->keepalive removeObjectForKey:number];
-            if (_onTestComplete)
-                _onTestComplete(test);
+            if (_onTestComplete) _onTestComplete(test);
         });
         state->async.on_empty([self]() {
-            if (_onEmpty)
-                _onEmpty();
+            if (_onEmpty) _onEmpty();
         });
     }
     return self;
@@ -138,10 +130,8 @@ using namespace ight::ooni::dns_injection;
       tp->begin([&tp]() { tp->end([]() { ight_break_loop(); }); });
       ight_loop();
       [state->keepalive removeObjectForKey:number];
-      if (_onTestComplete)
-          _onTestComplete(test);
-      if (_onEmpty)
-          _onEmpty();
+      if (_onTestComplete) _onTestComplete(test);
+      if (_onEmpty) _onEmpty();
     });
 }
 @end

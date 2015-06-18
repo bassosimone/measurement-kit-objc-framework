@@ -2,38 +2,38 @@
 
 volatile int pending = 0;
 
-static void init(MKTRunner *async) {
+static void runTest(MKTRunner *runner) {
     MKTDNSInjection *test = [[MKTDNSInjection alloc] init];
     [test setInputFile:@"/tmp/hosts.txt"];
     [test setSettings:[NSMutableDictionary dictionaryWithDictionary:@{
-              @"nameserver" : @"8.8.8.8",
-          }]];
+        @"nameserver" : @"8.8.8.8",
+    }]];
     [test setOnLogLine:^(MKTNetworkTest *test, NSString *logLine) {
-      NSLog(@"%@: %@", test, logLine);
+        NSLog(@"%@: %@", test, logLine);
     }];
     pending += 1;
-    //[async runParallel:test];  // <-- this crashes
-    [async runSerial:test];
+    //[runner runParallel:test];  // <-- this crashes
+    [runner runSerial:test];
     NSLog(@"%@: started", test);
 }
 
 int main() {
-    MKTRunner *async = [[MKTRunner alloc] init];
+    MKTRunner *runner = [[MKTRunner alloc] init];
 
-    [async setOnTestComplete:^(MKTNetworkTest *test) {
-      NSLog(@"%@: complete", test);
-      pending -= 1;
+    [runner setOnTestComplete:^(MKTNetworkTest *test) {
+        NSLog(@"%@: complete", test);
+        pending -= 1;
     }];
 
-    [async setOnEmpty:^() {
-      NSLog(@"No more pending tests");
+    [runner setOnEmpty:^() {
+        NSLog(@"No more pending tests");
     }];
 
     for (int i = 0; i < 16; ++i) {
         if (!pending) {
-            init(async);
-            init(async);
-            init(async);
+            runTest(runner);
+            runTest(runner);
+            runTest(runner);
         }
         sleep(1);
     }
