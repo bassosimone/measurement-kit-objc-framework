@@ -67,7 +67,15 @@ using namespace ight::ooni::dns_injection;
     tp->set_log_verbose(1);
     tp->set_log_function([self](const char *s) {
         MKTOnLogLine func = [self onLogLine];
-        if (func) func(self, [NSString stringWithUTF8String:s]);
+        if (func) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                /*
+                 * XXX Here we pass `self` to the caller who may modify
+                 * for example the logging function concurrently.
+                 */
+                func(self, [NSString stringWithUTF8String:s]);
+            });
+        }
     });
     return tp;
 }
@@ -124,14 +132,22 @@ using namespace ight::ooni::dns_injection;
 
 - (void)runSerial:(MKTNetworkTest *)test {
     dispatch_async(state->queue, ^{
-      SharedPointer<NetTest> tp = [test makeShared];
-      NSNumber *number = [NSNumber numberWithLongLong:tp->identifier()];
-      [state->keepalive setObject:test forKey:number];
-      tp->begin([&tp]() { tp->end([]() { ight_break_loop(); }); });
-      ight_loop();
-      [state->keepalive removeObjectForKey:number];
-      if (_onTestComplete) _onTestComplete(test);
-      if (_onEmpty) _onEmpty();
+        SharedPointer<NetTest> tp = [test makeShared];
+        NSNumber *number = [NSNumber numberWithLongLong:tp->identifier()];
+        [state->keepalive setObject:test forKey:number];
+        tp->begin([&tp]() { tp->end([]() { ight_break_loop(); }); });
+        ight_loop();
+        [state->keepalive removeObjectForKey:number];
+        if (_onTestComplete) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _onTestComplete(test);
+            });
+        }
+        if (_onEmpty) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _onEmpty();
+            });
+        };
     });
 }
 @end
